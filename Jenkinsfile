@@ -2,6 +2,12 @@ pipeline {
   agent {
     label 'Linux_GO'
   }
+
+  environment {
+    DOCKERHUB_CREDENTIALS=credentials('DockerHub')
+  }
+  
+
   stages {
     stage('mvn build') {
       parallel {
@@ -27,21 +33,27 @@ pipeline {
       }
     }
 
+    stage('docker login') {
+      steps {
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin' 
+      }
+    }
+
     stage('push image') {
       parallel {
+        
         stage('push image') {
           steps {
             dir(path: 'accounts') {
-              sh 'pwd'
+              sh 'docker push andychentw/accounts:latest'
             }
-
           }
         }
 
         stage('push cards images') {
           steps {
             dir(path: 'cards') {
-              sh 'pwd'
+              sh 'docker push andychentw/cards:latest'
             }
 
           }
@@ -50,6 +62,12 @@ pipeline {
       }
     }
 
+  }
+
+  post {
+    always {
+      sh 'docker logout'
+    }
   }
   tools {
     maven 'Maven_3.8.6'
