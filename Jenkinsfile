@@ -27,6 +27,29 @@ pipeline {
       }
     }
 
+    stage('push image') {
+      parallel {
+        stage('push image') {
+          steps {
+            dir(path: 'accounts') {
+              sh 'pwd'
+            }
+
+          }
+        }
+
+        stage('push cards images') {
+          steps {
+            dir(path: 'cards') {
+              sh 'pwd'
+            }
+
+          }
+        }
+
+      }
+    }
+
   }
   tools {
     maven 'Maven_3.8.6'
