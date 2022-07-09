@@ -43,6 +43,15 @@ services:
       - "8010:8010"
     networks:
       - bank-net
+    environment:
+      - spring.rabbitmq.host=rabbitmq
+    env_file:
+      - .env
+    healthcheck:
+      test: timeout 10s bash -c ':> /dev/tcp/127.0.0.1/8010' || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
   eurekaServer:
     image: andychentw/eureka-server
@@ -51,15 +60,23 @@ services:
     networks:
       - bank-net
     depends_on:
-      - configServer
+      configServer:
+          condition: service_healthy
+      rabbitmq:
+          condition: service_healthy
     environment:
+      - spring.profiles.active=docker
       - spring.config.import=configserver:http://configServer:8010
+    healthcheck:
+      test: timeout 10s bash -c ':> /dev/tcp/127.0.0.1/8011' || exit 1
+#      test: "curl -fs localhost:8011/actuator/health | grep UP  || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
     deploy:
       restart_policy:
         condition: on-failure
-        delay: 5s
         max_attempts: 3
-        window: 120s
 #  eurekaServer1:
 #    image: andychentw/eureka-server
 #    ports:
@@ -73,69 +90,63 @@ services:
 #    deploy:
 #      restart_policy:
 #        condition: on-failure
-#        delay: 5s
 #        max_attempts: 3
-#        window: 120s
-
+  gateway:
+    image: andychentw/gateway-server:latest
+    ports:
+      - "8087:8087"
+    depends_on:
+      configServer:
+        condition: service_healthy
+      eurekaServer:
+        condition: service_healthy
+    networks:
+      - bank-net
+    environment:
+      - spring.profiles.active=docker
+      - spring.config.import=configserver:http://configServer:8010
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
 
   accounts:
     image: andychentw/accounts:latest
     ports:
       - "8080:8080"
     depends_on:
-      - configServer
-      - eurekaServer
+      configServer:
+        condition: service_healthy
+      eurekaServer:
+        condition: service_healthy
     networks:
       - bank-net
     environment:
-      - spring.profiles.active=dev
+      - spring.profiles.active=docker
       - spring.config.import=configserver:http://configServer:8010
-      - eureka.client.service-url.defaultZone=http://eurekaServer:8011/eureka
     deploy:
       restart_policy:
         condition: on-failure
-        delay: 5s
         max_attempts: 3
-        window: 120s
-        
+
   cards:
     image: andychentw/cards:latest
     ports:
       - 9000:9000
     depends_on:
-      - configServer
-      - eurekaServer
+      configServer:
+        condition: service_healthy
+      eurekaServer:
+        condition: service_healthy
     networks:
       - bank-net
     environment:
-      - spring.profiles.active=dev
+      - spring.profiles.active=docker
       - spring.config.import=configserver:http://configServer:8010
-      - eureka.client.service-url.defaultZone=http://eurekaServer:8011/eureka
     deploy:
       restart_policy:
         condition: on-failure
-        delay: 5s
         max_attempts: 3
-        window: 120s
-#  cards1:
-#    image: andychentw/cards:latest
-#    ports:
-#      - 9001:9000
-#    depends_on:
-#      - configServer
-#      - eurekaServer
-#    networks:
-#      - bank-net
-#    environment:
-#      - spring.profiles.active=dev
-#      - spring.config.import=configserver:http://configServer:8010
-#      - eureka.client.service-url.defaultZone=http://eurekaServer:8011/eureka,http://eurekaServer1:8011/eureka
-#    deploy:
-#      restart_policy:
-#        condition: on-failure
-#        delay: 5s
-#        max_attempts: 3
-#        window: 120s
 
   postgresDB:
     image: postgres
@@ -151,23 +162,22 @@ services:
     ports:
       - 8090:8090
     depends_on:
-      - configServer
-      - eurekaServer
-      - postgresDB
+      configServer:
+        condition: service_healthy
+      eurekaServer:
+        condition: service_healthy
+#      - postgresDB
     networks:
       - bank-net
     environment:
-      - spring.profiles.active=dev
+      - spring.profiles.active=docker
       - spring.config.import=configserver:http://configServer:8010
-      - eureka.client.service-url.defaultZone=http://eurekaServer:8011/eureka
       - db.postgres.url=r2dbc:postgresql://postgresDB:5432
     deploy:
       restart_policy:
         condition: on-failure
-        delay: 5s
         max_attempts: 3
-        window: 120s
-        
+
 
 networks:
   bank-net:
