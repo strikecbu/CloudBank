@@ -11,22 +11,49 @@ pipeline {
   stages {
     stage('mvn build') {
       parallel {
-        stage('mvn build accounts') {
-          steps {
-            dir(path: 'accounts') {
-              sh 'pwd'
-              sh 'mvn spring-boot:build-image'
-            }
 
+        stage('loans') {
+          steps {
+            dir(path: 'loans') {
+              sh 'mvn spring-boot:build-image -Dmaven.skip.test=true'
+            }
+          }
+        }
+        stage('gateway-server') {
+          steps {
+            dir(path: 'gateway-server') {
+              sh 'mvn spring-boot:build-image -Dmaven.skip.test=true'
+            }
+          }
+        }
+        stage('eureka-server') {
+          steps {
+            dir(path: 'eureka-server') {
+              sh 'mvn spring-boot:build-image -Dmaven.skip.test=true'
+            }
+          }
+        }
+        stage('bank-config') {
+          steps {
+            dir(path: 'bank-config') {
+              sh 'mvn spring-boot:build-image -Dmaven.skip.test=true'
+            }
           }
         }
 
-        stage('mvn build card') {
+        stage('accounts') {
+          steps {
+            dir(path: 'accounts') {
+              sh 'mvn spring-boot:build-image -Dmaven.skip.test=true'
+            }
+          }
+        }
+
+        stage('card') {
           steps {
             dir(path: 'cards') {
-              sh 'mvn spring-boot:build-image'
+              sh 'mvn spring-boot:build-image -Dmaven.skip.test=true'
             }
-
           }
         }
 
@@ -42,7 +69,35 @@ pipeline {
     stage('push image') {
       parallel {
         
-        stage('push image') {
+        stage('loans') {
+          steps {
+            dir(path: 'loans') {
+              sh 'docker push andychentw/loans:latest'
+            }
+          }
+        }
+        stage('gateway-server') {
+          steps {
+            dir(path: 'gateway-server') {
+              sh 'docker push andychentw/gateway-server:latest'
+            }
+          }
+        }
+        stage('eureka-server') {
+          steps {
+            dir(path: 'eureka-server') {
+              sh 'docker push andychentw/eureka-server:latest'
+            }
+          }
+        }
+        stage('bank-config') {
+          steps {
+            dir(path: 'bank-config') {
+              sh 'docker push andychentw/bank-config:latest'
+            }
+          }
+        }
+        stage('accounts') {
           steps {
             dir(path: 'accounts') {
               sh 'docker push andychentw/accounts:latest'
@@ -50,12 +105,11 @@ pipeline {
           }
         }
 
-        stage('push cards images') {
+        stage('cards') {
           steps {
             dir(path: 'cards') {
               sh 'docker push andychentw/cards:latest'
             }
-
           }
         }
 
