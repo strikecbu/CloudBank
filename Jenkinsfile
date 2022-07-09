@@ -15,28 +15,28 @@ pipeline {
         stage('loans') {
           steps {
             dir(path: 'loans') {
-              sh 'mvn spring-boot:build-image -Dmaven.skip.test=true'
+              sh 'mvn spring-boot:build-image -DskipTests'
             }
           }
         }
         stage('gateway-server') {
           steps {
             dir(path: 'gateway-server') {
-              sh 'mvn spring-boot:build-image -Dmaven.skip.test=true'
+              sh 'mvn spring-boot:build-image -DskipTests'
             }
           }
         }
         stage('eureka-server') {
           steps {
             dir(path: 'eureka-server') {
-              sh 'mvn spring-boot:build-image -Dmaven.skip.test=true'
+              sh 'mvn spring-boot:build-image -DskipTests'
             }
           }
         }
         stage('bank-config') {
           steps {
             dir(path: 'bank-config') {
-              sh 'mvn spring-boot:build-image -Dmaven.skip.test=true'
+              sh 'mvn spring-boot:build-image -DskipTests'
             }
           }
         }
@@ -44,7 +44,7 @@ pipeline {
         stage('accounts') {
           steps {
             dir(path: 'accounts') {
-              sh 'mvn spring-boot:build-image -Dmaven.skip.test=true'
+              sh 'mvn spring-boot:build-image -DskipTests'
             }
           }
         }
@@ -52,7 +52,7 @@ pipeline {
         stage('card') {
           steps {
             dir(path: 'cards') {
-              sh 'mvn spring-boot:build-image -Dmaven.skip.test=true'
+              sh 'mvn spring-boot:build-image -DskipTests'
             }
           }
         }
