@@ -11,6 +11,7 @@ import com.eazybytes.accounts.repository.CustomerRepository;
 import com.eazybytes.accounts.view.CustomerView;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
+import io.micrometer.core.annotation.Timed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,7 @@ public class CustomersController {
 
     @GetMapping("/{custId}")
 //    @CircuitBreaker(name = "custDetailByCustId", fallbackMethod = "fallbackFindCustomerByIdWithoutCards")
+    @Timed(value = "getCustomerView.time", description = "Time taken to return customer detail")
     @Retry(name = "custDetailByCustId", fallbackMethod = "fallbackFindCustomerByIdWithoutCards")
     public ResponseEntity<CustomerView> findCustomerById(@RequestHeader("cloudbank-correlation-key") String key,
                                                          @PathVariable Integer custId) {

@@ -7,6 +7,7 @@ import com.eazybytes.cards.config.ConfigProperties;
 import com.eazybytes.cards.model.Cards;
 import com.eazybytes.cards.repository.CardsRepository;
 import com.eazybytes.cards.service.LogService;
+import io.micrometer.core.annotation.Timed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -36,6 +37,7 @@ public class CardsController {
     }
 
     @GetMapping()
+    @Timed(value = "getCardDetails.times", description = "Time taken to get cards details")
     public Flux<Cards> getCardDetails(@RequestHeader("cloudbank-correlation-key") String key,
                                       @RequestParam Integer custId) {
         log.info("correlation-key: {}", key);
