@@ -20,8 +20,9 @@ public class ConfigController {
         Properties properties = new Properties();
         properties.put("msg", configProperties.getMsg());
         properties.put("buildVersion", configProperties.getBuildVersion());
-        properties.put("mailDetails", configProperties.getMailDetails());
-        properties.put("activeBranches", configProperties.getActiveBranches());
+//        properties.put("mailDetails", configProperties.getMailDetails());
+//        properties.put("activeBranches", configProperties.getActiveBranches());
+        properties.put("endpoint", configProperties.getEndpoint());
         return properties;
     }
 }
