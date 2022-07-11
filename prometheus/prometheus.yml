@@ -7,11 +7,11 @@ scrape_configs:
     metrics_path: /actuator/prometheus
     eureka_sd_configs:
       - server: http://eurekaServer:8011/eureka
-
   - job_name: 'cloudbank-config'
     metrics_path: /actuator/prometheus
-    static_configs: ['configServer:8010']
-
+    static_configs:
+      - targets: ['configServer:8010']
   - job_name: 'cloudbank-eureka'
     metrics_path: /actuator/prometheus
-    static_configs: ['eurekaServer:8011']
+    static_configs:
+      - targets: ['eurekaServer:8011']

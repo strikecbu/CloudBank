@@ -42,7 +42,7 @@ services:
     ports:
       - '9090:9090'
     volumes:
-      - prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     networks:
       - bank-net
 
@@ -134,8 +134,6 @@ services:
 
   accounts:
     image: andychentw/accounts:latest
-    ports:
-      - "8080:8080"
     depends_on:
       configServer:
         condition: service_healthy
@@ -153,8 +151,6 @@ services:
 
   cards:
     image: andychentw/cards:latest
-    ports:
-      - 9000:9000
     depends_on:
       configServer:
         condition: service_healthy
@@ -181,8 +177,6 @@ services:
 
   loans:
     image: andychentw/loans:latest
-    ports:
-      - 8090:8090
     depends_on:
       configServer:
         condition: service_healthy
