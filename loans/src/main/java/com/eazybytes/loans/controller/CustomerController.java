@@ -3,6 +3,7 @@ package com.eazybytes.loans.controller;
 import com.eazybytes.loans.client.AccountClient;
 import com.eazybytes.loans.client.CardClient;
 import com.eazybytes.loans.model.CustomerView;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -19,6 +20,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{custId}")
+    @Timed(value = "loans.getCustomerDetail.time", description = "get customer from loans, accounts and cards")
     public Mono<CustomerView> getCustomerById(@RequestHeader("cloudbank-correlation-key") String key,  @PathVariable Integer custId) {
         return accountClient.getCustomerById(custId)
                 .flatMap(customer -> cardClient.getCardDetails(key, custId)
