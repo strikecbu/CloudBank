@@ -6,9 +6,25 @@ pipeline {
   environment {
     DOCKERHUB_CREDENTIALS=credentials('DockerHub')
   }
+
   
 
+
   stages {
+    stage('mvn test build') {
+        steps {
+          dir(path: 'cards') {
+            sh 'mvn package -DskipTests'
+          }
+        }
+    }
+    stage('docker build') {
+        steps {
+          dir(path: 'cards') {
+            sh 'docker build -t andychentw/cards --no-cache .'
+          }
+        }
+    }
     stage('mvn build') {
       parallel {
 
@@ -49,13 +65,13 @@ pipeline {
           }
         }
 
-        stage('card') {
-          steps {
-            dir(path: 'cards') {
-              sh 'mvn spring-boot:build-image -DskipTests'
-            }
-          }
-        }
+        // stage('card') {
+        //   steps {
+        //     dir(path: 'cards') {
+        //       sh 'mvn spring-boot:build-image -DskipTests'
+        //     }
+        //   }
+        // }
 
       }
     }
