@@ -21,7 +21,7 @@ services:
 
     # https://hub.docker.com/r/openzipkin/zipkin
   zipkin:
-    image: openzipkin/zipkin
+    image: openzipkin/zipkin:2.23
     mem_limit: 512m
     expose:
       - "9411"
@@ -37,6 +37,29 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+
+  prometheus:
+    image: prom/prometheus:v2.36.2
+    ports:
+      - '9090:9090'
+    volumes:
+      - /Users/andy/Documents/lesson/MasterMicroservices/CloudBank/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - bank-net
+
+  grafana:
+    image: grafana/grafana:9.0.2
+    ports:
+      - '3000:3000'
+    environment:
+#      - GF_INSTALL_PLUGINS=http://plugin-domain.com/my-custom-plugin.zip;custom-plugin,grafana-clock-panel
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=password
+    depends_on:
+      - prometheus
+    networks:
+      - bank-net
+
 
 networks:
   bank-net:
