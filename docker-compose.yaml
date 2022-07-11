@@ -69,11 +69,6 @@ services:
       - spring.rabbitmq.host=rabbitmq
     env_file:
       - .env
-    healthcheck:
-      test: timeout 10s bash -c ':> /dev/tcp/127.0.0.1/8010' || exit 1
-      interval: 10s
-      timeout: 5s
-      retries: 10
 
   eurekaServer:
     image: andychentw/eureka-server
@@ -82,19 +77,10 @@ services:
     networks:
       - bank-net
     depends_on:
-      configServer:
-          condition: service_healthy
-      rabbitmq:
-          condition: service_healthy
+      - zipkin
     environment:
       - spring.profiles.active=docker
       - spring.config.import=configserver:http://configServer:8010
-    healthcheck:
-      test: timeout 10s bash -c ':> /dev/tcp/127.0.0.1/8011' || exit 1
-#      test: "curl -fs localhost:8011/actuator/health | grep UP  || exit 1"
-      interval: 10s
-      timeout: 5s
-      retries: 10
     deploy:
       restart_policy:
         condition: on-failure
@@ -118,10 +104,7 @@ services:
     ports:
       - "8087:8087"
     depends_on:
-      configServer:
-        condition: service_healthy
-      eurekaServer:
-        condition: service_healthy
+      - eurekaServer
     networks:
       - bank-net
     environment:
@@ -137,10 +120,7 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      configServer:
-        condition: service_healthy
-      eurekaServer:
-        condition: service_healthy
+      - eurekaServer
     networks:
       - bank-net
     environment:
@@ -156,10 +136,7 @@ services:
     ports:
       - 9000:9000
     depends_on:
-      configServer:
-        condition: service_healthy
-      eurekaServer:
-        condition: service_healthy
+      - eurekaServer
     networks:
       - bank-net
     environment:
@@ -184,11 +161,8 @@ services:
     ports:
       - 8090:8090
     depends_on:
-      configServer:
-        condition: service_healthy
-      eurekaServer:
-        condition: service_healthy
-#      - postgresDB
+      - eurekaServer
+      - postgresDB
     networks:
       - bank-net
     environment:
