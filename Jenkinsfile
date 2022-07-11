@@ -11,48 +11,34 @@ pipeline {
 
 
   stages {
-    stage('mvn test build') {
-        steps {
-          dir(path: 'cards') {
-            sh 'mvn package -DskipTests'
-          }
-        }
-    }
-    stage('docker build') {
-        steps {
-          dir(path: 'cards') {
-            sh 'docker build -t andychentw/cards --no-cache .'
-          }
-        }
-    }
     stage('mvn build') {
       parallel {
 
         stage('loans') {
           steps {
             dir(path: 'loans') {
-              sh 'mvn spring-boot:build-image -DskipTests'
+              sh 'mvn clean package -DskipTests'
             }
           }
         }
         stage('gateway-server') {
           steps {
             dir(path: 'gateway-server') {
-              sh 'mvn spring-boot:build-image -DskipTests'
+              sh 'mvn clean package -DskipTests'
             }
           }
         }
         stage('eureka-server') {
           steps {
             dir(path: 'eureka-server') {
-              sh 'mvn spring-boot:build-image -DskipTests'
+              sh 'mvn clean package -DskipTests'
             }
           }
         }
         stage('bank-config') {
           steps {
             dir(path: 'bank-config') {
-              sh 'mvn spring-boot:build-image -DskipTests'
+              sh 'mvn clean package -DskipTests'
             }
           }
         }
@@ -60,18 +46,68 @@ pipeline {
         stage('accounts') {
           steps {
             dir(path: 'accounts') {
-              sh 'mvn spring-boot:build-image -DskipTests'
+              sh 'mvn clean package -DskipTests'
             }
           }
         }
 
-        // stage('card') {
-        //   steps {
-        //     dir(path: 'cards') {
-        //       sh 'mvn spring-boot:build-image -DskipTests'
-        //     }
-        //   }
-        // }
+        stage('card') {
+          steps {
+            dir(path: 'cards') {
+              sh 'mvn clean package -DskipTests'
+            }
+          }
+        }
+
+      }
+    }
+    stage('docker build') {
+      parallel {
+
+        stage('loans') {
+          steps {
+            dir(path: 'loans') {
+              sh 'docker build -t andychentw/loans --no-cache .'
+            }
+          }
+        }
+        stage('gateway-server') {
+          steps {
+            dir(path: 'gateway-server') {
+              sh 'docker build -t andychentw/gateway-server --no-cache .'
+            }
+          }
+        }
+        stage('eureka-server') {
+          steps {
+            dir(path: 'eureka-server') {
+              sh 'docker build -t andychentw/eureka-server --no-cache .'
+            }
+          }
+        }
+        stage('bank-config') {
+          steps {
+            dir(path: 'bank-config') {
+              sh 'docker build -t andychentw/bank-config --no-cache .'
+            }
+          }
+        }
+
+        stage('accounts') {
+          steps {
+            dir(path: 'accounts') {
+              sh 'docker build -t andychentw/accounts --no-cache .'
+            }
+          }
+        }
+
+        stage('card') {
+          steps {
+            dir(path: 'cards') {
+              sh 'docker build -t andychentw/cards --no-cache .'
+            }
+          }
+        }
 
       }
     }
