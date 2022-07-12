@@ -47,11 +47,11 @@ services:
       - bank-net
 
   grafana:
-    image: grafana/grafana:9.0.2
+    image: grafana/grafana:8.5.5
     ports:
       - '3000:3000'
     environment:
-      #      - GF_INSTALL_PLUGINS=http://plugin-domain.com/my-custom-plugin.zip;custom-plugin,grafana-clock-panel
+#      - GF_INSTALL_PLUGINS=http://plugin-domain.com/my-custom-plugin.zip;custom-plugin,grafana-clock-panel
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=password
     depends_on:
@@ -66,7 +66,7 @@ services:
     networks:
       - bank-net
     environment:
-      - spring.rabbitmq.host=rabbitmq
+      - SPRING_RABBITMQ_HOST=rabbitmq
     env_file:
       - .env
 
@@ -79,8 +79,8 @@ services:
     depends_on:
       - zipkin
     environment:
-      - spring.profiles.active=docker
-      - spring.config.import=configserver:http://configServer:8010
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CONFIG_IMPORT=configserver:http://configServer:8010
     deploy:
       restart_policy:
         condition: on-failure
@@ -108,8 +108,8 @@ services:
     networks:
       - bank-net
     environment:
-      - spring.profiles.active=docker
-      - spring.config.import=configserver:http://configServer:8010
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CONFIG_IMPORT=configserver:http://configServer:8010
     deploy:
       restart_policy:
         condition: on-failure
@@ -124,8 +124,8 @@ services:
     networks:
       - bank-net
     environment:
-      - spring.profiles.active=docker
-      - spring.config.import=configserver:http://configServer:8010
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CONFIG_IMPORT=configserver:http://configServer:8010
     deploy:
       restart_policy:
         condition: on-failure
@@ -140,8 +140,8 @@ services:
     networks:
       - bank-net
     environment:
-      - spring.profiles.active=docker
-      - spring.config.import=configserver:http://configServer:8010
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CONFIG_IMPORT=configserver:http://configServer:8010
     deploy:
       restart_policy:
         condition: on-failure
@@ -166,9 +166,9 @@ services:
     networks:
       - bank-net
     environment:
-      - spring.profiles.active=docker
-      - spring.config.import=configserver:http://configServer:8010
-      - db.postgres.url=r2dbc:postgresql://postgresDB:5432
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CONFIG_IMPORT=configserver:http://configServer:8010
+      - DB_POSTGRES_URL=r2dbc:postgresql://postgresDB:5432
     deploy:
       restart_policy:
         condition: on-failure
