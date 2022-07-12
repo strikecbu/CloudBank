@@ -35,7 +35,7 @@ management:
         include: "*"
 eureka:
   instance:
-    instance-id: gateway-service-${random.value}
+    instance-id: gateway-service-${spring.cloud.client.ip-address}:${server.port}
     prefer-ip-address: true
   client:
     service-url:
