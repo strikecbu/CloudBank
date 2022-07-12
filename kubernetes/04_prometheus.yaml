@@ -1,0 +1,66 @@
+apiVersion: v1       
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 5s
+      evaluation_interval: 5s
+    scrape_configs:
+      - job_name: 'cloudbank'
+        metrics_path: /actuator/prometheus
+        eureka_sd_configs:
+          - server: http://eureka-server-service:8011/eureka
+      - job_name: 'cloudbank-config'
+        metrics_path: /actuator/prometheus
+        static_configs:
+          - targets: ['config-server-service:8010']
+      - job_name: 'cloudbank-eureka'
+        metrics_path: /actuator/prometheus
+        static_configs:
+          - targets: ['eureka-server-service:8011']
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      containers:
+      - name: prometheus
+        image: prom/prometheus:v2.36.2
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 9090
+        volumeMounts:
+          - mountPath: /etc/prometheus/
+            name: config-voluem
+      volumes:
+        - name: config-voluem
+          configMap:
+            name: prometheus-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-service
+spec:
+  selector:
+    app: prometheus
+  type: LoadBalancer  
+  ports:
+  - port: 9090
+    targetPort: 9090
+                        

@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-server
+spec:
+  selector:
+    matchLabels:
+      app: gateway-server
+  template:
+    metadata:
+      labels:
+        app: gateway-server
+    spec:
+      containers:
+      - name: gateway-server
+        image: andychentw/gateway-server:latest
+        imagePullPolicy: Always
+        env:
+          - name: SPRING_PROFILES_ACTIVE
+            valueFrom:
+              configMapKeyRef:
+                name: cloudbank-config
+                key: SPRING_PROFILES_ACTIVE
+          - name: SPRING_CONFIG_IMPORT
+            valueFrom:
+              configMapKeyRef:
+                name: cloudbank-config
+                key: SPRING_CONFIG_IMPORT
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8087
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-server-service
+spec:
+  selector:
+    app: gateway-server
+  type: LoadBalancer  
+  ports:
+  - protocol: TCP
+    port: 8087
+    targetPort: 8087
