@@ -26,10 +26,10 @@ spec:
               secretKeyRef:
                 name: github-secret
                 key: SPRING_CLOUD_CONFIG_SERVER_GIT_PASSWORD
-        resources:
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
+#        resources:
+#          limits:
+#            memory: "256Mi"
+#            cpu: "250m"
         ports:
         - containerPort: 8010
 
@@ -41,7 +41,7 @@ metadata:
 spec:
   selector:
     app: config-server
-  type: LoadBalancer  
+  type: ClusterIP
   ports:
   - protocol: TCP
     port: 8010

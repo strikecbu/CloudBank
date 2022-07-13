@@ -14,10 +14,10 @@ spec:
       containers:
       - name: rabbitmq
         image: rabbitmq:3.10-management
-        resources:
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
+        # resources:
+        #   limits:
+        #     memory: "256Mi"
+        #     cpu: "250m"
         ports:
         - containerPort: 5672
         - containerPort: 15762
@@ -30,7 +30,7 @@ metadata:
 spec:
   selector:
     app: rabbitmq
-  type: LoadBalancer 
+  type: NodePort
   ports:
   - protocol: TCP
     name: internal

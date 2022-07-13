@@ -19,10 +19,10 @@ spec:
             value: admin
           - name: GF_SECURITY_ADMIN_PASSWORD
             value: password
-        resources:
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
+        # resources:
+        #   limits:
+        #     memory: "256Mi"
+        #     cpu: "500m"
         ports:
         - containerPort: 3000
 

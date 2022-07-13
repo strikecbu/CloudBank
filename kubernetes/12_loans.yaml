@@ -32,10 +32,10 @@ spec:
               configMapKeyRef:
                 name: cloudbank-config
                 key: DB_POSTGRES_URL
-        resources:
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
+        # resources:
+        #   limits:
+        #     memory: "256Mi"
+        #     cpu: "500m"
         ports:
         - containerPort: 8090
 
@@ -47,7 +47,7 @@ metadata:
 spec:
   selector:
     app: loans
-  type: LoadBalancer  
+  type: ClusterIP  
   ports:
   - protocol: TCP
     port: 8090

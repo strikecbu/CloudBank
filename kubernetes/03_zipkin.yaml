@@ -26,10 +26,10 @@ spec:
             value: guest
           - name: STORAGE_TYPE
             value: mem
-        resources:
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
+        # resources:
+        #   limits:
+        #     memory: "256Mi"
+        #     cpu: "250m"
         ports:
         - containerPort: 9411
 

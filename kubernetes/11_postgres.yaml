@@ -23,10 +23,10 @@ spec:
             value: p@ssw0rd
           - name: POSTGRES_DB
             value: postgres
-        resources:
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
+        # resources:
+        #   limits:
+        #     memory: "256Mi"
+        #     cpu: "250m"
         ports:
         - containerPort: 5432
 

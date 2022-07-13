@@ -27,10 +27,10 @@ spec:
               configMapKeyRef:
                 name: cloudbank-config
                 key: SPRING_CONFIG_IMPORT
-        resources:
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
+        # resources:
+        #   limits:
+        #     memory: "512Mi"
+        #     cpu: "500m"
         ports:
         - containerPort: 8080
 
@@ -42,7 +42,7 @@ metadata:
 spec:
   selector:
     app: accounts
-  type: LoadBalancer  
+  type: ClusterIP  
   ports:
   - protocol: TCP
     port: 8080

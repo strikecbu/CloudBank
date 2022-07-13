@@ -26,10 +26,10 @@ spec:
               configMapKeyRef:
                 name: cloudbank-config
                 key: SPRING_CONFIG_IMPORT
-        resources:
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
+        # resources:
+        #   limits:
+        #     memory: "256Mi"
+        #     cpu: "500m"
         ports:
         - containerPort: 8087
 
