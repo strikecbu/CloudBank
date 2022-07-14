@@ -1,0 +1,17 @@
+deploymentName: cards-deploy
+deploymentLabel: cards
+
+replicaCount: 1
+
+image:
+  repository: andychentw/cards
+  tag: latest
+
+service:
+  type: ClusterIP
+  port: 9000
+  targetPort: 9000
+
+profile_enabled: true
+configImport_enabled: true
+postgresUrl_enabled: false

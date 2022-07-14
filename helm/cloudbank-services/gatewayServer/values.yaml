@@ -1,0 +1,17 @@
+deploymentName: gateway-server-deploy
+deploymentLabel: gateway-server
+
+replicaCount: 1
+
+image:
+  repository: andychentw/gateway-server
+  tag: latest
+
+service:
+  type: LoadBalancer
+  port: 8087
+  targetPort: 8087
+
+profile_enabled: true
+configImport_enabled: true
+postgresUrl_enabled: false

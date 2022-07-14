@@ -1,0 +1,13 @@
+deploymentName: zipkin-deploy
+deploymentLabel: zipkin
+
+replicaCount: 1
+
+image:
+  repository: openzipkin/zipkin
+  tag: 2.23
+
+service: 
+  type: LoadBalancer
+  port: 9411
+  targetPort: 9411

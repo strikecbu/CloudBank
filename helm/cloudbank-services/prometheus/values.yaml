@@ -1,0 +1,17 @@
+target:
+  eurekaHost: eureka-server-service:8011
+  configServerHost: config-server-deploy:8010
+
+deploymentName: prometheus-deploy
+deploymentLabel: prometheus
+
+replicaCount: 1
+
+image:
+  repository: prom/prometheus
+  tag: v2.36.2
+
+service:
+  type: LoadBalancer
+  port: 9090
+  targetPort: 9090

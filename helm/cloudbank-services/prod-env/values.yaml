@@ -1,0 +1,8 @@
+global:
+  configMapName: cloudbank-config
+  rabbitmqAddress: rabbitmq-service
+  activeProfile: prod
+  configServerImport: configserver:http://config-server-deploy:8010
+  postgresR2BCUrl: r2dbc:postgresql://postgres-deploy:5432
+  gitSecretName: github-secret
+  gitPassword:

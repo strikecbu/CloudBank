@@ -1,0 +1,12 @@
+{{- define "common.configMap" -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.global.configMapName }}
+data:
+  RABBIT_ADDRESSES: {{ .Values.global.rabbitmqAddress }}
+  SPRING_PROFILES_ACTIVE: {{ .Values.global.activeProfile }}
+  SPRING_RABBITMQ_HOST: {{ .Values.global.rabbitmqAddress }}
+  SPRING_CONFIG_IMPORT: {{ .Values.global.configServerImport }}
+  DB_POSTGRES_URL: {{ .Values.global.postgresR2BCUrl }}
+{{- end }}

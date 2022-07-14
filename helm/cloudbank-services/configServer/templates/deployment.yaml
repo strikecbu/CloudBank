@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deploymentName }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.deploymentLabel }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.deploymentLabel }}
+    spec:
+      containers:
+        - name: {{ .Values.deploymentLabel }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: Always
+          env:
+            - name: SPRING_RABBITMQ_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.global.configMapName }}
+                  key: SPRING_RABBITMQ_HOST
+            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.gitSecretName }}
+                  key: SPRING_CLOUD_CONFIG_SERVER_GIT_PASSWORD
+          ports:
+            - containerPort: {{ .Values.service.port }}

@@ -1,0 +1,39 @@
+dependencies:
+- name: cloudbank-common
+  repository: file://../../cloudbank-common
+  version: 0.1.0
+- name: rabbitmq
+  repository: file://../rabbitmq
+  version: 0.1.0
+- name: zipkin
+  repository: file://../zipkin
+  version: 0.1.0
+- name: prometheus
+  repository: file://../prometheus
+  version: 0.1.0
+- name: grafana
+  repository: file://../grafana
+  version: 0.1.0
+- name: configServer
+  repository: file://../configServer
+  version: 0.1.0
+- name: eurekaServer
+  repository: file://../eurekaServer
+  version: 0.1.1
+- name: gatewayServer
+  repository: file://../gatewayServer
+  version: 0.1.0
+- name: accounts
+  repository: file://../accounts
+  version: 0.1.0
+- name: cards
+  repository: file://../cards
+  version: 0.1.0
+- name: postgres
+  repository: file://../postgres
+  version: 0.1.0
+- name: loans
+  repository: file://../loans
+  version: 0.1.0
+digest: sha256:906529cfc05f07bd621c8bd4c26de75564aadacd2ab830c2a656e76dab759a6b
+generated: "2022-07-14T21:51:35.37606+08:00"

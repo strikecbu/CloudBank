@@ -1,0 +1,17 @@
+deploymentName: config-server-deploy
+deploymentLabel: config-server
+
+replicaCount: 1
+
+image:
+  repository: andychentw/bank-config
+  tag: latest
+
+service: 
+  type: ClusterIP
+  port: 8010
+  targetPort: 8010
+
+profile_enabled: true
+configImport_enabled: false
+postgresUrl_enabled: false

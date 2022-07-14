@@ -1,0 +1,17 @@
+deploymentName: loans-deploy
+deploymentLabel: loans
+
+replicaCount: 1
+
+image:
+  repository: andychentw/loans
+  tag: latest
+
+service:
+  type: ClusterIP
+  port: 8090
+  targetPort: 8090
+
+profile_enabled: true
+configImport_enabled: true
+postgresUrl_enabled: true

@@ -1,0 +1,17 @@
+deploymentName: accounts-deploy
+deploymentLabel: accounts
+
+replicaCount: 1
+
+image:
+  repository: andychentw/accounts
+  tag: latest
+
+service:
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+
+profile_enabled: true
+configImport_enabled: true
+postgresUrl_enabled: false

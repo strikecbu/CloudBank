@@ -1,0 +1,17 @@
+deploymentName: eureka-server-service
+deploymentLabel: eureka-server
+
+replicaCount: 1
+
+image:
+  repository: andychentw/eureka-server
+  tag: latest
+
+service:
+  type: LoadBalancer
+  port: 8011
+  targetPort: 8011
+
+profile_enabled: true
+configImport_enabled: true
+postgresUrl_enabled: false

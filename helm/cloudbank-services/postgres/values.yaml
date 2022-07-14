@@ -1,0 +1,17 @@
+deploymentName: postgres-deploy
+deploymentLabel: postgres
+
+replicaCount: 1
+
+image:
+  repository: postgres
+  tag: latest
+
+service:
+  type: ClusterIP
+  port: 5432
+  targetPort: 5432
+
+username: postgres
+password: p@ssw0rd
+database: postgres
