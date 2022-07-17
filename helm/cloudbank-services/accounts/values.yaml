@@ -1,5 +1,5 @@
-deploymentName: accounts-deploy
-deploymentLabel: accounts
+applicationName: accounts
+applicationLabel: accounts
 
 replicaCount: 1
 

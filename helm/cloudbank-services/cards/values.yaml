@@ -1,5 +1,5 @@
-deploymentName: cards-deploy
-deploymentLabel: cards
+applicationName: cards
+applicationLabel: cards
 
 replicaCount: 1
 

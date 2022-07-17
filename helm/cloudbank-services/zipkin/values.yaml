@@ -1,5 +1,5 @@
-deploymentName: zipkin-deploy
-deploymentLabel: zipkin
+applicationName: zipkin
+applicationLabel: zipkin
 
 replicaCount: 1
 
@@ -8,6 +8,6 @@ image:
   tag: 2.23
 
 service: 
-  type: LoadBalancer
+  type: NodePort
   port: 9411
   targetPort: 9411

@@ -1,7 +1,7 @@
-deploymentName: config-server-deploy
-deploymentLabel: config-server
+applicationName: config-server
+applicationLabel: config-server
 
-replicaCount: 1
+replicaCount: 2
 
 image:
   repository: andychentw/bank-config
@@ -12,6 +12,8 @@ service:
   port: 8010
   targetPort: 8010
 
-profile_enabled: true
+profile_enabled: false
 configImport_enabled: false
 postgresUrl_enabled: false
+rabbitmqHost_enabled: true
+gitPassword_enabled: true

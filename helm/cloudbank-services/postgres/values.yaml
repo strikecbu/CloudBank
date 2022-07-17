@@ -1,5 +1,5 @@
-deploymentName: postgres-deploy
-deploymentLabel: postgres
+applicationName: postgres
+applicationLabel: postgres
 
 replicaCount: 1
 

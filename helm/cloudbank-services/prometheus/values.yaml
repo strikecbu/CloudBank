@@ -1,9 +1,9 @@
 target:
   eurekaHost: eureka-server-service:8011
-  configServerHost: config-server-deploy:8010
+  configServerHost: config-server-service:8010
 
-deploymentName: prometheus-deploy
-deploymentLabel: prometheus
+applicationName: prometheus
+applicationLabel: prometheus
 
 replicaCount: 1
 
@@ -12,6 +12,6 @@ image:
   tag: v2.36.2
 
 service:
-  type: LoadBalancer
+  type: NodePort
   port: 9090
   targetPort: 9090

@@ -1,14 +1,15 @@
-{{- define "common.service" -}}
+{{- define "common.service" }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.deploymentName }}
+  name: {{ .Values.applicationName }}-service
 spec:
   selector:
-    app: {{ .Values.deploymentLabel }}
+    app: {{ .Values.applicationLabel }}
   type: {{ .Values.service.type }}
   ports:
   - protocol: TCP
+    name: {{ .Values.service.portName | default "web" | quote }}
     port: {{ .Values.service.port }}
     targetPort: {{ .Values.service.targetPort }}
 {{- end }}  

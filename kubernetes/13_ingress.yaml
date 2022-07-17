@@ -1,0 +1,26 @@
+ apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cloudbank-ingress
+  labels:
+    name: cloudbank-ingress
+
+spec:
+  rules:
+  - host: fake.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: prometheus-deploy
+            port: 
+              number: 9090
+      - pathType: Prefix
+        path: "/cloudbank"
+        backend:
+          service:
+            name:  gateway-server-deploy
+            port: 
+              number: 8087

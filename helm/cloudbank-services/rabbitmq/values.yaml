@@ -1,5 +1,5 @@
-deploymentName: rabbitmq-service
-deploymentLabel: rabbitmq
+applicationName: rabbitmq
+applicationLabel: rabbitmq
 
 replicaCount: 1
 
@@ -8,8 +8,8 @@ image:
   tag: 3.10-management
 
 service: 
-  type: LoadBalancer
-  port: 5672
-  targetPort: 5672
-  port2: 15672
-  targetPort2: 15672
+  type: NodePort
+  port: 15672
+  targetPort: 15672
+  port2: 5672
+  targetPort2: 5672
