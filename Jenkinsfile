@@ -7,8 +7,16 @@ pipeline {
     DOCKERHUB_CREDENTIALS=credentials('DockerHub')
   }
 
-  
-
+  options {
+    buildDiscarder(
+      logRotator(
+        artifactDaysToKeepStr: '', 
+        artifactNumToKeepStr: '', 
+        daysToKeepStr: '', 
+        numToKeepStr: '5',
+      )
+    )
+  } 
 
   stages {
     stage('mvn build') {
